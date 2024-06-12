@@ -69,7 +69,7 @@ class RepoActionImpl internal constructor(
         } catch (e: Exception) {
             when (e) {
                 is RepositoryNotFoundException -> {
-                    log.debug("仓库 $id（${repo.gitUrl}）不存在，重新 clone")
+                    log.debug("仓库 $id（${repo.gitUrl}#${repo.branch}）不存在，重新 clone")
                 }
                 is IllegalStateException -> {
                     log.warn("目标仓库不匹配，重新 clone")
@@ -107,7 +107,7 @@ class RepoActionImpl internal constructor(
         if (!guide.checkSum(existInfo.sum)) {
             return true
         }
-        return existInfo.guide == info.guide && existInfo.role == info.role
+        return !(existInfo.guide == info.guide && existInfo.role == info.role)
     }
 
     override fun saveGuide(file: File, info: GuideInfo) {
@@ -126,6 +126,7 @@ class RepoActionImpl internal constructor(
     private fun Git.autoClose() {
         add().addFilepattern(".").call()
         if (status().call().hasUncommittedChanges()) {
+            log.info("更改提交到仓库 $id（${repo.gitUrl}）...")
             commit().applyAuthor().setMessage("auto update").call()
         }
         push().setForce(true).call()

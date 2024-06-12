@@ -28,7 +28,7 @@ class GuideActionImpl(
         info: GuideInfo
     ): Boolean {
         for (item in list) {
-            if (!item.needUpdate(info)) {
+            if (item.needUpdate(info)) {
                 return true
             }
         }
@@ -44,7 +44,7 @@ class GuideActionImpl(
             return
         }
         for (item in list) {
-            if (item.needUpdate(info)) {
+            if (!item.needUpdate(info)) {
                 continue
             }
             try {

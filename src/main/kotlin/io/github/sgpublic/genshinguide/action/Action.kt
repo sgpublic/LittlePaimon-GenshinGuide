@@ -43,7 +43,16 @@ class Action: Job {
                         log.debug("寻找角色攻略：$role")
 
                         val existGuide = guideRss[element]?.find {
-                            it.subject.contains(role.name)
+                            val realName = if (role.name.startsWith("旅行者")) {
+                                role.name.replace(" ", "")
+                                    .replace("(", "")
+                                    .replace("（", "")
+                                    .replace(")", "")
+                                    .replace("）", "")
+                            } else {
+                                role.name
+                            }
+                            it.subject.contains(realName)
                         }
 
                         if (existGuide == null) {
@@ -56,7 +65,7 @@ class Action: Job {
                             if (!force && !actions.needUpdate(target)) {
                                 continue
                             }
-                            log.info("开始导攻略：${role.name}")
+                            log.info("开始导出攻略：${role.name}")
                             actions.saveGuide(target)
                         } catch (e: Exception) {
                             log.warn("攻略导出失败：${role.name}", e)

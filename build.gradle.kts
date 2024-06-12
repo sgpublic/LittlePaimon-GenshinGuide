@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.sgpublic"
-version = "1.1.0"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -95,7 +95,7 @@ tasks {
         ).joinToString(" &&\\\n "))
         user("runner")
         volume("/app/config.yaml")
-        entryPoint("/app/bin/LittlePaimon-GenshinGuide")
+        entryPoint("/app/bin/little-paimon-genshin-guide")
     }
 
     val tag = "mhmzx/little-paimon-genshin-guide"

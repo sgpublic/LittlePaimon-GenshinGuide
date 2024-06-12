@@ -34,12 +34,8 @@ class DownloadActionImp(
             for (index in 0 until max(1, retry)) {
                 try {
                     realDownload()
-                    log.info("第 ${index + 1} 次尝试下载完成，校验文件完整性...")
-                    if (tempFile.checkSum(info.sum)) {
-                        return tempFile
-                    } else {
-                        throw IllegalStateException("文件校验不完整")
-                    }
+                    log.info("第 ${index + 1} 次尝试下载完成！")
+                    return tempFile
                 } catch (e: Exception) {
                     log.warn("第 ${index + 1} 次尝试下载失败", e)
                 }
@@ -93,6 +89,6 @@ class DownloadActionImp(
     }
 
     private val tempFile: File by lazy {
-        File(Config.tempDir, "${info.role.element}/${info.role.name}.png")
+        File(Config.tempDir, "/guide/${info.role.element}/${info.role.name}.png")
     }
 }
