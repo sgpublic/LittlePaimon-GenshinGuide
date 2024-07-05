@@ -42,8 +42,20 @@ object RoleRSS: RetryWhen {
                     continue
                 }
                 val id = href.substring(14)
-                val name = try {
-                    a.querySelector<HtmlSpan>(".text-white").textContent
+                val name: String = try {
+                    val spans = a.querySelectorAll(".text-white")
+                    var name: String? = null
+                    for (span in spans) {
+                        if (span !is HtmlSpan) {
+                            continue
+                        }
+                        if (span.getAttribute("class") != "text-white") {
+                            continue
+                        }
+                        name = span.textContent
+                        break
+                    }
+                    name ?: throw IllegalArgumentException("找不到 .text-white")
                 } catch (e: Exception) {
                     log.warn("角色名称获取失败：$href")
                     continue
@@ -70,6 +82,7 @@ object RoleRSS: RetryWhen {
                     log.warn("角元素获取失败：$href")
                     continue
                 }
+                log.debug("识别到角色：$name")
                 result[element] = result.getOrDefault(element, LinkedList()).also {
                     it.add(RoleItem(
                         rarity = rarity,
