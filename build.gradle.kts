@@ -26,11 +26,6 @@ application {
 
 repositories {
     mavenCentral()
-
-    findProperty("publishing.gitlab.host")?.toString()?.let {
-        // TODO 将 uniktx 发布到 mavenCentral
-        maven("https://$it/api/v4/projects/11/packages/maven")
-    }
 }
 
 dependencies {
@@ -58,7 +53,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
     implementation("commons-codec:commons-codec:1.16.0")
 
-    val uniktx = "1.0.0-beta01"
+    val uniktx = "1.0.0-beta03"
     implementation("io.github.sgpublic:uniktx-kotlin-common:$uniktx")
     implementation("io.github.sgpublic:uniktx-kotlin-logback:$uniktx")
     implementation("io.github.sgpublic:uniktx-kotlin-forest:$uniktx")
@@ -84,15 +79,13 @@ tasks {
         group = "docker"
         from("openjdk:17-slim-bullseye")
         workingDir("/app")
-        copy {
-            copyFile("./install/little-paimon-genshin-guide", "/app")
-        }
         runCommand(listOf(
             "useradd -u 1000 runner",
             "apt-get update",
             "apt-get install findutils -y",
             "chown -R runner:runner /app"
         ).joinToString(" &&\\\n "))
+        copyFile("./install/little-paimon-genshin-guide", "/app")
         user("runner")
         volume("/app/config.yaml")
         entryPoint("/app/bin/little-paimon-genshin-guide")
