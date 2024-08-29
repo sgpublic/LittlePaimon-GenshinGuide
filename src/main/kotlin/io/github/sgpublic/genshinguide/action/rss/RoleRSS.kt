@@ -114,5 +114,15 @@ object RoleRSS: RetryWhen {
         override fun compareTo(other: RoleItem): Int {
             return name.compareTo(other.name)
         }
+
+        val capitalName: String get() = if (!name.startsWith("旅行者")) {
+            name
+        } else {
+            name.replace(" ", "")
+                .replace("(", "")
+                .replace("（", "")
+                .replace(")", "")
+                .replace("）", "")
+        }
     }
 }

@@ -37,7 +37,9 @@ data class AbsConfig(
         Electro({ io.github.sgpublic.genshinguide.Config.guideRss.electro }),
         Dendro({ io.github.sgpublic.genshinguide.Config.guideRss.dendro }),
         Cryo({ io.github.sgpublic.genshinguide.Config.guideRss.cryo }),
-        Geo({ io.github.sgpublic.genshinguide.Config.guideRss.geo });
+        Geo({ io.github.sgpublic.genshinguide.Config.guideRss.geo }),
+        Default({ io.github.sgpublic.genshinguide.Config.guideRss.default }),
+        ;
 
         val rss: String by lazy { rssUrl() }
     }
@@ -65,6 +67,9 @@ data class AbsConfig(
         // 岩
         @SerialName("geo")
         val geo: String = "https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?gids=2&order_type=2&collection_id=2319298",
+        // 默认合集
+        @SerialName("default")
+        val default: String = "https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?gids=2&order_type=2&collection_id=642956",
     )
 
     @Serializable

@@ -112,8 +112,9 @@ class RepoActionImpl internal constructor(
 
     override fun saveGuide(file: File, info: GuideInfo) {
         val root = File(repository, "$filePrefix/")
-        val guide = File(root, "./${info.role.name}.png")
-        val json = File(root, "./${info.role.name}.json")
+        val roleName = info.role.capitalName
+        val guide = File(root, "./${roleName}.png")
+        val json = File(root, "./${roleName}.json")
         info.sum = file.getSum()
         file.copyTo(guide, true)
         json.writeText(info.toGson())

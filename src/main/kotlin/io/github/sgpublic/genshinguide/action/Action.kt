@@ -30,7 +30,7 @@ class Action: Job {
             try {
                 GuideAction.create(
                     Config.repos.map {
-                        log.debug("检查仓库：${it.key}")
+                        log.debug("检查仓库：{}", it.key)
                         RepoAction.of(it.key, force, it.value)
                     }
                 )
@@ -40,23 +40,14 @@ class Action: Job {
             }.use { actions ->
                 for ((element, roles) in roleRss) {
                     for (role in roles) {
-                        log.debug("寻找角色攻略：$role")
+                        log.debug("寻找角色攻略：{}", role)
 
                         val existGuide = guideRss[element]?.find {
-                            val realName = if (role.name.startsWith("旅行者")) {
-                                role.name.replace(" ", "")
-                                    .replace("(", "")
-                                    .replace("（", "")
-                                    .replace(")", "")
-                                    .replace("）", "")
-                            } else {
-                                role.name
-                            }
-                            it.subject.contains(realName)
+                            it.subject.contains(role.capitalName)
                         }
 
                         if (existGuide == null) {
-                            log.warn("没有找到角色 ${role.name} 的攻略")
+                            log.warn("没有找到角色 {} 的攻略", role.name)
                             continue
                         }
 
