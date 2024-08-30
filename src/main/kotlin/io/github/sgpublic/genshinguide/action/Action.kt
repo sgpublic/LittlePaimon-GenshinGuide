@@ -44,6 +44,8 @@ class Action: Job {
 
                         val existGuide = guideRss[element]?.find {
                             it.subject.contains(role.capitalName)
+                        } ?: guideRss[AbsConfig.Element.Default]?.find {
+                            it.subject.contains(role.capitalName)
                         }
 
                         if (existGuide == null) {

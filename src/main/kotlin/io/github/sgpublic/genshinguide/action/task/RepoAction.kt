@@ -107,7 +107,7 @@ class RepoActionImpl internal constructor(
         if (!guide.checkSum(existInfo.sum)) {
             return true
         }
-        return !(existInfo.guide == info.guide && existInfo.role == info.role)
+        return !(existInfo.guide.image.imageId == info.guide.image.imageId && existInfo.role == info.role)
     }
 
     override fun saveGuide(file: File, info: GuideInfo) {
