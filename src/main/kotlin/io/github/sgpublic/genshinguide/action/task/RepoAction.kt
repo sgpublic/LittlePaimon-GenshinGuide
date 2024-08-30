@@ -64,7 +64,7 @@ class RepoActionImpl internal constructor(
                         .call()
                 }
                 git.fetch().call()
-                git.reset().setRef("HEAD").setMode(ResetCommand.ResetType.HARD).call()
+                git.reset().setRef("origin/$branch").setMode(ResetCommand.ResetType.HARD).call()
             }
         } catch (e: Exception) {
             when (e) {
@@ -98,8 +98,9 @@ class RepoActionImpl internal constructor(
     private val filePrefix = "./genshin_guide/guide"
     override fun needUpdate(info: GuideInfo): Boolean {
         val root = File(repository, "$filePrefix/")
-        val guide = File(root, "./${info.role.name}.png")
-        val json = File(root, "./${info.role.name}.json")
+        val roleName = info.role.capitalName
+        val guide = File(root, "./${roleName}.png")
+        val json = File(root, "./${roleName}.json")
         if (!guide.exists() || !json.exists()) {
             return true
         }

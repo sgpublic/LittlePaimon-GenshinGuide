@@ -115,14 +115,12 @@ object RoleRSS: RetryWhen {
             return name.compareTo(other.name)
         }
 
-        val capitalName: String get() = if (!name.startsWith("旅行者")) {
-            name
-        } else {
+        val capitalName: String get() =
+            name.takeIf { !name.contains("旅行者") } ?:
             name.replace(" ", "")
                 .replace("(", "")
                 .replace("（", "")
                 .replace(")", "")
                 .replace("）", "")
-        }
     }
 }
